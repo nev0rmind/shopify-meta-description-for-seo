@@ -1,3 +1,7 @@
+{% comment %}
+    META TITLE
+{% endcomment %}
+
 {%- capture seo_title -%}
     {%- if template == "collection" -%}{{ "Order " }}{%- endif -%}
     {{- page_title -}}
@@ -16,3 +20,29 @@
   {%- endcapture -%}
 
 <title>{{ seo_title | strip_newlines }}</title>
+
+{% comment %}
+    META DESCRIPTION
+{% endcomment %}
+
+  {%- capture seo_metadesc -%}
+  	{%- if page_description -%}
+  	  {%- if template == 'list-collections' -%}
+  			{{ "Find a beautiful dress for your next occasion. Here are all of our beautiful dress collections." | strip }}
+      {%- else -%}
+          {{- page_description | strip | escape -}} 
+          {%- if template == 'blog' -%}
+          {{ " Here are our articles" }} {%- if current_tags -%}{{ 'general.meta.tags' | t: tags: meta_tags | downcase | remove: "&quot;" -}}{%- endif -%}.
+          {%- endif -%}
+          {%- if template == 'product' -%}
+  			{{ " Only " }}{{ product.variants[0].price | money }}!
+  		  {%- endif -%}
+      {%- endif -%}   	
+  	{%- endif -%}
+    {%- if template == 'collection' -%}
+            {{ "Find a beautiful dress for your next occasion by color, length, or size." | strip }}
+    {%- endif -%}
+    {{ " Always FREE 2-day shipping and no-hassle returns at " }}{{ shop.name | strip }}.
+  {%- endcapture -%}
+
+<meta name="description" content="{{ seo_metadesc | strip_newlines }}">
